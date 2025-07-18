@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>safejew-community-web-platform</title>
+</head>
+<body>
+  <h1>SafeJew Community Platform</h1>
+  <div id="map" style="height:300px;"></div>
+  <form id="incidentForm">
+    <label>Description:<input type="text" id="description" required></label>
+    <label>Lat:<input type="number" id="lat" step="any" required></label>
+    <label>Lng:<input type="number" id="lng" step="any" required></label>
+    <button type="submit">Report</button>
+  </form>
+  <ul id="incidents"></ul>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <script>
+    async function load() {
+      const res = await fetch('/api/incidents');
+      const data = await res.json();
+      document.getElementById('incidents').innerHTML = data.map(i => `<li>${i.description} (${i.lat}, ${i.lng})</li>`).join('');
+      if (window.map) {
+        data.forEach(i => new mapboxgl.Marker().setLngLat([i.lng, i.lat]).addTo(window.map));
+      }
+    }
+    load();
+    document.getElementById('incidentForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const description = document.getElementById('description').value;
+      const lat = parseFloat(document.getElementById('lat').value);
+      const lng = parseFloat(document.getElementById('lng').value);
+      await fetch('/api/incidents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ description, lat, lng })
+      });
+      document.getElementById('description').value = '';
+      load();
+      });
+
+    mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN';
+    window.map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-118.2437,34.0522],
+      zoom: 9
+    });
+  </script>
+</body>
+</html>

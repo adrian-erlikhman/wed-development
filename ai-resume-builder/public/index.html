@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>ai-resume-builder</title>
+</head>
+<body>
+  <h1>AI Resume Builder</h1>
+  <form id="resumeForm">
+    <label>Name:
+      <input type="text" id="name" required />
+    </label>
+    <br />
+    <label>Experience:<br>
+      <textarea id="experience" rows="4" cols="40"></textarea>
+    </label>
+    <br />
+    <button type="submit">Generate Resume</button>
+  </form>
+  <a id="download" href="#" style="display:none">Download PDF</a>
+  <script>
+    const form = document.getElementById('resumeForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const experience = document.getElementById('experience').value;
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, experience })
+      });
+      const data = await res.json();
+      const download = document.getElementById('download');
+      download.href = 'data:application/pdf;base64,' + data.pdf;
+      download.style.display = 'block';
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>startup-funding-simulator</title>
+</head>
+<body>
+  <h1>Startup Funding Simulator</h1>
+  <form id="simForm">
+    <label>Pre-money Valuation:<input type="number" id="pre" required></label>
+    <label>Investment Amount:<input type="number" id="investment" required></label>
+    <button type="submit">Simulate</button>
+  </form>
+  <pre id="result"></pre>
+  <script>
+    const output = document.getElementById('result');
+    const last = localStorage.getItem('lastSim');
+    if (last) output.textContent = last;
+
+    document.getElementById('simForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const pre = Number(document.getElementById('pre').value);
+      const investment = Number(document.getElementById('investment').value);
+      const res = await fetch('/api/simulate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pre, investment })
+      });
+      const data = await res.json();
+      const text = JSON.stringify(data, null, 2);
+      output.textContent = text;
+      localStorage.setItem('lastSim', text);
+    });
+  </script>
+</body>
+</html>
