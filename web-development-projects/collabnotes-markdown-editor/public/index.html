@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>collabnotes-markdown-editor</title>
+</head>
+<body>
+  <h1>CollabNotes</h1>
+  <textarea id="editor" rows="10" cols="50" placeholder="Start typing..."></textarea>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const editor = document.getElementById('editor');
+    editor.addEventListener('input', () => {
+      socket.emit('note', editor.value);
+    });
+    socket.on('note', text => {
+      if (document.activeElement !== editor) {
+        editor.value = text;
+      }
+    });
+  </script>
+</body>
+</html>

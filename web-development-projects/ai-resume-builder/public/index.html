@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>ai-resume-builder</title>
+</head>
+<body>
+  <h1>AI Resume Builder</h1>
+  <form id="resumeForm">
+    <label>Name:
+      <input type="text" id="name" required />
+    </label>
+    <button type="submit">Generate Resume</button>
+  </form>
+  <pre id="result"></pre>
+  <script>
+    const form = document.getElementById('resumeForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+      const data = await res.json();
+      document.getElementById('result').textContent = data.resume;
+    });
+  </script>
+</body>
+</html>

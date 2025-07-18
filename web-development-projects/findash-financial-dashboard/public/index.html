@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>findash-financial-dashboard</title>
+</head>
+<body>
+  <h1>FinDash Dashboard</h1>
+  <form id="stockForm">
+    <label>Symbol:<input type="text" id="symbol" required></label>
+    <button type="submit">Get Quote</button>
+  </form>
+  <pre id="result"></pre>
+  <script>
+    document.getElementById('stockForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const symbol = document.getElementById('symbol').value;
+      const res = await fetch(`/api/stock/${symbol}`);
+      const data = await res.json();
+      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+    });
+  </script>
+</body>
+</html>

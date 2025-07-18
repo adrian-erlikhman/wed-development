@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>designify-merch-creator</title>
+</head>
+<body>
+  <h1>Designify Merch Creator</h1>
+  <form id="designForm">
+    <label>Design Name:<input type="text" id="design" required></label>
+    <button type="submit">Submit</button>
+  </form>
+  <ul id="list"></ul>
+  <script>
+    async function load() {
+      const res = await fetch('/api/designs');
+      const data = await res.json();
+      const list = document.getElementById('list');
+      list.innerHTML = data.map(d => `<li>${d}</li>`).join('');
+    }
+    load();
+    document.getElementById('designForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const val = document.getElementById('design').value;
+      await fetch('/api/designs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ design: val })
+      });
+      document.getElementById('design').value = '';
+      load();
+    });
+  </script>
+</body>
+</html>
