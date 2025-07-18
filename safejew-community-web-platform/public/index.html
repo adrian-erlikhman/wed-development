@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>SafeJew Community Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6 font-sans">
+  <h1 class="text-3xl font-bold text-center mb-4">SafeJew Community Platform</h1>
+  <div id="map" class="mb-4" style="height:300px;"></div>
+  <form id="incidentForm" class="max-w-md mx-auto bg-white p-4 rounded shadow mb-4 space-y-2">
+    <label class="block">Description:
+      <input class="border p-2 w-full" type="text" id="description" required>
+    </label>
+    <label class="block">Lat:
+      <input class="border p-2 w-full" type="number" id="lat" step="any" required>
+    </label>
+    <label class="block">Lng:
+      <input class="border p-2 w-full" type="number" id="lng" step="any" required>
+    </label>
+    <button class="bg-red-600 text-white px-4 py-2 rounded" type="submit">Report</button>
+  </form>
+  <ul id="incidents" class="max-w-md mx-auto list-disc pl-5"></ul>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+  <script>
+    async function load() {
+      const res = await fetch('/api/incidents');
+      const data = await res.json();
+      document.getElementById('incidents').innerHTML = data.map(i => `<li>${i.description} (${i.lat}, ${i.lng})</li>`).join('');
+      if (window.map) {
+        data.forEach(i => new mapboxgl.Marker().setLngLat([i.lng, i.lat]).addTo(window.map));
+      }
+    }
+    load();
+    document.getElementById('incidentForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const description = document.getElementById('description').value;
+      const lat = parseFloat(document.getElementById('lat').value);
+      const lng = parseFloat(document.getElementById('lng').value);
+      await fetch('/api/incidents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ description, lat, lng })
+      });
+      document.getElementById('description').value = '';
+      load();
+      });
+
+    mapboxgl.accessToken = 'YOUR_MAPBOX_TOKEN';
+    window.map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [-118.2437,34.0522],
+      zoom: 9
+    });
+  </script>
+</body>
+</html>
