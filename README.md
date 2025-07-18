@@ -1,6 +1,6 @@
 # Web Development Projects
 
-This repository showcases a set of advanced web applications built with various modern technologies. Each project resides in its own folder at the root of the repository and includes a small backend server along with an interactive frontend demo. Detailed setup, development, and deployment instructions are provided in the README of each project.
+This repository showcases a set of advanced web applications built with various modern technologies. Each project sits in its own folder with a small backend server and frontend demo. Detailed setup, development, and deployment instructions are in the README of each project.
 
 ## Available Projects
 
@@ -8,5 +8,9 @@ This repository showcases a set of advanced web applications built with various 
 - **findash-financial-dashboard** – displays real-time financial data and portfolio analytics.
 - **startup-funding-simulator** – models how equity and valuation change through funding rounds.
 - **safejew-community-web-platform** – tracks and reports antisemitic incidents on an interactive map.
+- **personal-portfolio-website** – responsive portfolio with blog and contact form.
+- **smartspend-personal-finance-manager** – helps users manage budgets and visualize spending.
+- **collabnotes-real-time-markdown-editor** – collaborative markdown notes with WebSocket updates.
+- **designify-community-driven-merch-creator** – lets communities vote on merch designs and purchase popular items.
 
-Clone the repository and explore each folder to get started. Within any project directory run `npm install` followed by `npm start` to launch the sample application locally.
+Clone any project directory and run `npm install` followed by `npm start` to launch the sample locally.
