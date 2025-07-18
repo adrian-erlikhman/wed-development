@@ -6,7 +6,7 @@ A community-driven platform for tracking and reporting antisemitic incidents acr
 ## Technologies and Tools Used
 - React
 - TailwindCSS
-- Node.js
+- Node.js Express backend
 - MongoDB
 - Mapbox
 - Auth0 for authentication
@@ -29,8 +29,9 @@ A community-driven platform for tracking and reporting antisemitic incidents acr
    Create a `.env` file with your MongoDB URI, Mapbox token, and Auth0 keys.
 5. **Run the development server**
    ```bash
-   npm run dev
+   npm start
    ```
+   Access the site at `http://localhost:3000`.
 6. **Build for production**
    ```bash
    npm run build

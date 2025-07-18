@@ -23,8 +23,9 @@ An interactive tool for founders to simulate how equity, valuation, and cap tabl
    ```
 4. **Run the dev server**
    ```bash
-   npm run dev
+   npm start
    ```
+   Open `http://localhost:3000` to try the simulator.
 5. **Build for production**
    ```bash
    npm run build

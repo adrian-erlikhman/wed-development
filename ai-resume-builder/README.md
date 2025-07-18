@@ -6,12 +6,12 @@ An application that allows users to input their work experience and generates pr
 ## Technologies and Tools Used
 - React
 - OpenAI API
-- Node.js or Flask backend
+- Node.js Express backend
 - Puppeteer for PDF generation
 
 ## Setup & Installation
 1. **Prerequisites**
-   - Node.js or Python installed
+   - Node.js installed
    - OpenAI API key
 2. **Clone the repository**
    ```bash
@@ -20,14 +20,15 @@ An application that allows users to input their work experience and generates pr
    ```
 3. **Install dependencies**
    ```bash
-   npm install # or pip install -r requirements.txt if using Flask
+   npm install
    ```
 4. **Environment Variables**
    Add your OpenAI API key to `.env`.
 5. **Run the app**
    ```bash
-   npm run dev
+   npm start
    ```
+   Visit `http://localhost:3000` in your browser to view the demo.
 6. **Build for production**
    ```bash
    npm run build

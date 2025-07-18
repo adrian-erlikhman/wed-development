@@ -6,14 +6,14 @@ FinDash provides a comprehensive dashboard showing real-time stock data, user po
 ## Technologies and Tools Used
 - React
 - Recharts or D3 for charts
-- Node.js or Flask backend
+- Node.js Express backend
 - Alpha Vantage API
 - Finnhub API
 - PostgreSQL database
 
 ## Setup & Installation
 1. **Prerequisites**
-   - Node.js or Python installed
+   - Node.js installed
    - PostgreSQL database
    - API keys from Alpha Vantage and Finnhub
 2. **Clone the repository**
@@ -23,14 +23,15 @@ FinDash provides a comprehensive dashboard showing real-time stock data, user po
    ```
 3. **Install dependencies**
    ```bash
-   npm install # or pip install -r requirements.txt if using Flask
+   npm install
    ```
 4. **Environment Variables**
    Set your API keys and database connection string in `.env`.
 5. **Run the app**
    ```bash
-   npm run dev
+   npm start
    ```
+   Then open `http://localhost:3000` to use the dashboard.
 6. **Build for production**
    ```bash
    npm run build
