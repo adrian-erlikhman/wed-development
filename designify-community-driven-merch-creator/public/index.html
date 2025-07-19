@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Designify</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6 font-sans">
+  <h1 class="text-3xl font-bold text-center mb-4">Designify Merch Creator</h1>
+  <form id="designForm" class="max-w-md mx-auto bg-white p-4 rounded shadow mb-4 space-y-2">
+    <label class="block">Design Name:
+      <input class="border p-2 w-full" type="text" id="name" required>
+    </label>
+    <label class="block">Image URL:
+      <input class="border p-2 w-full" type="url" id="image" required>
+    </label>
+    <button class="bg-indigo-600 text-white px-4 py-2 rounded" type="submit">Submit</button>
+  </form>
+  <ul id="designs" class="max-w-md mx-auto list-disc pl-5"></ul>
+  <script>
+    async function load() {
+      const res = await fetch('/api/designs');
+      const data = await res.json();
+      document.getElementById('designs').innerHTML = data.map(d => `<li>${d.name} - <img src="${d.image}" class="inline-block h-10"/></li>`).join('');
+    }
+    load();
+    document.getElementById('designForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const image = document.getElementById('image').value;
+      await fetch('/api/designs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, image })
+      });
+      document.getElementById('name').value = '';
+      document.getElementById('image').value = '';
+      load();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Resume Builder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans p-6">
+  <h1 class="text-3xl font-bold mb-4 text-center">AI Resume Builder</h1>
+  <form id="resumeForm" class="max-w-md mx-auto bg-white p-4 rounded shadow">
+    <label class="block mb-2">Name:
+      <input class="border p-2 w-full" type="text" id="name" required />
+    </label>
+    <label class="block mb-2">Experience:
+      <textarea class="border p-2 w-full" id="experience" rows="4"></textarea>
+    </label>
+    <button class="bg-blue-600 text-white px-4 py-2 rounded" type="submit">Generate Resume</button>
+  </form>
+  <p class="text-center mt-4"><a class="text-blue-700 underline hidden" id="download" href="#">Download PDF</a></p>
+  <script>
+    const form = document.getElementById('resumeForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const experience = document.getElementById('experience').value;
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, experience })
+      });
+      const data = await res.json();
+      const download = document.getElementById('download');
+      download.href = 'data:application/pdf;base64,' + data.pdf;
+      download.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>

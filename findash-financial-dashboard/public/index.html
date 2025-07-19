@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>FinDash Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6 font-sans">
+  <h1 class="text-3xl font-bold text-center mb-4">FinDash Dashboard</h1>
+  <form id="stockForm" class="max-w-md mx-auto bg-white p-4 rounded shadow mb-4 flex gap-2">
+    <input class="border flex-grow p-2" type="text" id="symbol" placeholder="Ticker" required>
+    <button class="bg-green-600 text-white px-4 py-2 rounded" type="submit">Get Quote</button>
+  </form>
+  <pre id="result" class="text-center mb-4"></pre>
+  <div class="max-w-md mx-auto"><canvas id="chart" height="200"></canvas></div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('chart').getContext('2d');
+    let chart;
+    document.getElementById('stockForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const symbol = document.getElementById('symbol').value;
+      const res = await fetch(`/api/stock/${symbol}`);
+      const data = await res.json();
+      document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+
+      if (!chart) {
+        chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: [symbol],
+            datasets: [{ label: 'Price', data: [data.price] }]
+          }
+        });
+      } else {
+        chart.data.labels = [symbol];
+        chart.data.datasets[0].data = [data.price];
+        chart.update();
+      }
+    });
+  </script>
+</body>
+</html>
