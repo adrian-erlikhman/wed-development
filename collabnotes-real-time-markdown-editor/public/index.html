@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>CollabNotes</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <textarea id="editor" rows="10" cols="50"></textarea>
+    <script>
+      const socket = io();
+      const editor = document.getElementById('editor');
+      editor.addEventListener('input', () => {
+        socket.emit('note', editor.value);
+      });
+      socket.on('note', content => {
+        editor.value = content;
+      });
+    </script>
+  </body>
+</html>
